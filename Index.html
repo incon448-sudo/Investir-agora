@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Investa Agora</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --nubank-purple: #820AD1;
+      --nubank-dark: #1E1E1E;
+      --nubank-card: #2D2D2D;
+      --nubank-text: #FFFFFF;
+      --nubank-gray: #A0A0A0;
+      --nubank-green: #00C853;
+      --nubank-red: #FF5252;
+      --nubank-orange: #FFAB00;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--nubank-dark);
+      color: var(--nubank-text);
+      min-height: 100vh;
+    }
+
+    /* LOGIN */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--nubank-dark);
+    }
+    .login-card {
+      background: var(--nubank-card);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 10px 40px rgba(130, 10, 209, 0.3);
+    }
+    .login-card .logo {
+      width: 60px;
+      height: 60px;
+      background: var(--nubank-purple);
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    .login-card h2 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .login-card p {
+      text-align: center;
+      color: var(--nubank-gray);
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--nubank-text);
+      font-size: 16px;
+      margin-bottom: 12px;
+      transition: all 0.3s;
+    }
+    .login-card input:focus {
+      outline: none;
+      border-color: var(--nubank-purple);
+      background: rgba(255,255,255,0.08);
+    }
+    .login-card input::placeholder { color: var(--nubank-gray); }
+    .login-card button {
+      width: 100%;
+      padding: 16px;
+      background: var(--nubank-purple);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    .login-card button:hover {
+      background: #9B2DE0;
+      transform: translateY(-2px);
+    }
+    .login-card .erro {
+      color: var(--nubank-red);
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    /* HEADER */
+    .app-header {
+      background: var(--nubank-purple);
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .app-header h1 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .app-header .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    .btn-sair {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+    .btn-sair:hover { background: rgba(255,255,255,0.25); }
+
+    /* CARDS DE STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .stat-nubank {
+      background: var(--nubank-card);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-nubank::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--nubank-purple);
+    }
+    .stat-nubank .label {
+      color: var(--nubank-gray);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .stat-nubank .value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .stat-nubank .value.green { color: var(--nubank-green); }
+    .stat-nubank .value.red { color: var(--nubank-red); }
+    .stat-nubank .value.purple { color: var(--nubank-purple); }
+    .stat-nubank .value.orange { color: var(--nubank-orange); }
+
+    /* SEÇÕES */
+    .nubank-section {
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 0 20px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .section-header .badge-count {
+      background: var(--nubank-red);
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nubank-card {
+      background: var(--nubank-card);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    /* TABELA */
+    .nubank-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .nubank-table th {
+      background: rgba(130, 10, 209, 0.15);
+      padding: 14px 16px;
+      text-align: left;
+      color: var(--nubank-gray);
+      font-weight: 500;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .nubank-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #e0e0e0;
+    }
+    .nubank-table tr:hover {
+      background: rgba(255,255,255,0.03);
+    }
+    .nubank-table tr:last-child td { border-bottom: none; }
+
+    .user-id {
+      font-weight: 600;
+      color: var(--nubank-purple);
+    }
+    .valor-pos { color: var(--nubank-green); font-weight: 600; }
+    .valor-neg { color: var(--nubank-red); font-weight: 600; }
+
+    /* STATUS */
+    .status-nubank {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-pendente {
+      background: rgba(255, 171, 0, 0.15);
+      color: var(--nubank-orange);
+    }
+    .status-aprovado {
+      background: rgba(0, 200, 83, 0.15);
+      color: var(--nubank-green);
+    }
+    .status-rejeitado {
+      background: rgba(255, 82, 82, 0.15);
+      color: var(--nubank-red);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .status-pendente .status-dot { background: var(--nubank-orange); }
+    .status-aprovado .status-dot { background: var(--nubank-green); }
+    .status-rejeitado .status-dot { background: var(--nubank-red); }
+
+    /* BOTÕES */
+    .btn-nubank {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .btn-nubank-aprovar {
+      background: var(--nubank-green);
+      color: #fff;
+    }
+    .btn-nubank-aprovar:hover { background: #00B248; transform: scale(1.05); }
+    .btn-nubank-rejeitar {
+      background: transparent;
+      color: var(--nubank-red);
+      border: 1px solid var(--nubank-red);
+      margin-left: 8px;
+    }
+    .btn-nubank-rejeitar:hover { background: rgba(255, 82, 82, 0.1); }
+
+    /* EMPTY */
+    .empty-nubank {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--nubank-gray);
+    }
+    .empty-nubank .icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    /* TOAST */
+    .toast-nubank {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--nubank-purple);
+      color: #fff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 8px 30px rgba(130, 10, 209, 0.4);
+      z-index: 2000;
+      animation: slideUp 0.4s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .toast-nubank.erro { background: var(--nubank-red); }
+    .toast-nubank.sucesso { background: var(--nubank-green); }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .nubank-table { font-size: 12px; }
+      .nubank-table th, .nubank-table td { padding: 10px; }
+      .app-header { padding: 15px 20px; }
+      .app-header h1 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="telaLogin" class="login-screen">
+    <div class="login-card">
+      <div class="logo">🔐</div>
+      <h2>Painel Admin</h2>
+      <p>Investa Agora</p>
+      <input type="text" id="adminUser" placeholder="Usuário">
+      <input type="password" id="adminPass" placeholder="Senha" onkeypress="if(event.key==='Enter')fazerLogin()">
+      <button onclick="fazerLogin()">Entrar</button>
+      <p id="erroLogin" class="erro"></p>
+    </div>
+  </div>
+
+  <!-- PAINEL -->
+  <div id="painelAdmin" class="hidden">
+    <div class="app-header">
+      <div>
+        <h1>👤 Painel Administrativo</h1>
+      </div>
+      <div class="user-info">
+        <span>Admin</span>
+        <button class="btn-sair" onclick="logout()">Sair</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-nubank">
+        <div class="label">Saques Pendentes</div>
+        <div class="value red" id="statPendentes">0</div>
+      </div>
+      <div class="stat-nubank">
+        <div class="label">Total Usuários</div>
+        <div class="value purple" id="statUsuarios">0</div>
+      </div>
+      <div class="stat-nubank">
+        <div class="label">Total Investido</div>
+        <div class="value green" id="statInvestido">R$ 0,00</div>
+      </div>
+      <div class="stat-nubank">
+        <div class="label">Total em Saques</div>
+        <div class="value orange" id="statSaques">R$ 0,00</div>
+      </div>
+    </div>
+
+    <!-- SAQUES PENDENTES -->
+    <div class="nubank-section">
+      <div class="section-header">
+        <h2>⏳ Saques Pendentes</h2>
+        <span class="badge-count" id="badgePendentes">0</span>
+      </div>
+      <div class="nubank-card" id="listaPendentes">
+        <div class="empty-nubank">
+          <div class="icon">📭</div>
+          <p>Nenhum saque pendente</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTÓRICO SAQUES -->
+    <div class="nubank-section">
+      <div class="section-header">
+        <h2>📋 Histórico de Saques</h2>
+      </div>
+      <div class="nubank-card" id="listaTodosSaques">
+        <div class="empty-nubank">
+          <div class="icon">📊</div>
+          <p>Nenhum saque registrado</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- USUÁRIOS -->
+    <div class="nubank-section">
+      <div class="section-header">
+        <h2>👥 Usuários</h2>
+      </div>
+      <div class="nubank-card" id="listaUsuarios">
+        <div class="empty-nubank">
+          <div class="icon">👤</div>
+          <p>Nenhum usuário registrado</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPÓSITOS -->
+    <div class="nubank-section">
+      <div class="section-header">
+        <h2>💰 Depósitos Recentes</h2>
+      </div>
+      <div class="nubank-card" id="listaDepositosAdmin">
+        <div class="empty-nubank">
+          <div class="icon">💵</div>
+          <p>Nenhum depósito registrado</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========== FIREBASE ==========
+    const firebaseConfig = {
+      databaseURL: "https://investa-agora-default-rtdb.firebaseio.com/"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ========== LOGIN ==========
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "admin123";
+
+    function fazerLogin() {
+      const user = document.getElementById("adminUser").value;
+      const pass = document.getElementById("adminPass").value;
+
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        localStorage.setItem("investa_admin_logado", "true");
+        document.getElementById("telaLogin").classList.add("hidden");
+        document.getElementById("painelAdmin").classList.remove("hidden");
+        carregarDados();
+      } else {
+        document.getElementById("erroLogin").innerText = "Usuário ou senha incorretos!";
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("investa_admin_logado");
+      document.getElementById("telaLogin").classList.remove("hidden");
+      document.getElementById("painelAdmin").classList.add("hidden");
+      document.getElementById("adminUser").value = "";
+      document.getElementById("adminPass").value = "";
+      document.getElementById("erroLogin").innerText = "";
+    }
+
+    if (localStorage.getItem("investa_admin_logado") === "true") {
+      document.getElementById("telaLogin").classList.add("hidden");
+      document.getElementById("painelAdmin").classList.remove("hidden");
+    }
+
+    // ========== DADOS ==========
+    function carregarDados() {
+      db.ref('saques').on('value', (snapshot) => {
+        const saques = snapshot.val() || {};
+        renderizarSaques(saques);
+        atualizarStats(saques);
+      });
+
+      db.ref('usuarios').on('value', (snapshot) => {
+        const usuarios = snapshot.val() || {};
+        renderizarUsuarios(usuarios);
+        document.getElementById("statUsuarios").innerText = Object.keys(usuarios).length;
+
+        let totalInvestido = 0;
+        Object.values(usuarios).forEach(u => {
+          totalInvestido += (u.totalInvestido || 0);
+        });
+        document.getElementById("statInvestido").innerText = "R$ " + totalInvestido.toFixed(2).replace(".", ",");
+      });
+
+      db.ref('depositosPendentes').on('value', (snapshot) => {
+        const depositos = snapshot.val() || {};
+        renderizarDepositos(depositos);
+      });
+    }
+
+    // ========== RENDERIZAR SAQUES ==========
+    function renderizarSaques(saques) {
+      let pendentesHTML = "";
+      let todosHTML = "";
+      let countPendentes = 0;
+      let totalSaques = 0;
+
+      Object.entries(saques).forEach(([userId, userSaques]) => {
+        Object.entries(userSaques).forEach(([saqueId, saque]) => {
+          totalSaques += saque.valor;
+
+          const row = `
+            <tr>
+              <td><span class="user-id">${userId}</span></td>
+              <td class="valor-neg">R$ ${saque.valor.toFixed(2).replace(".", ",")}</td>
+              <td>${saque.tipoChave.toUpperCase()}</td>
+              <td>${saque.chavePix}</td>
+              <td>${saque.nomeTitular}</td>
+              <td>${new Date(saque.data).toLocaleString('pt-BR')}</td>
+              <td>
+                <span class="status-nubank status-${saque.status.toLowerCase()}">
+                  <span class="status-dot"></span>
+                  ${saque.status}
+                </span>
+              </td>
+              <td>
+                ${saque.status === 'Pendente' ? `
+                  <button class="btn-nubank btn-nubank-aprovar" onclick="aprovarSaque('${userId}', '${saqueId}', ${saque.valor}, '${saque.chavePix}', '${saque.tipoChave}', '${saque.nomeTitular}')">✓ Aprovar</button>
+                  <button class="btn-nubank btn-nubank-rejeitar" onclick="rejeitarSaque('${userId}', '${saqueId}')">✕ Rejeitar</button>
+                ` : '<span style="color: var(--nubank-gray);">-</span>'}
+              </td>
+            </tr>
+          `;
+
+          todosHTML += row;
+          if (saque.status === 'Pendente') {
+            pendentesHTML += row;
+            countPendentes++;
+          }
+        });
+      });
+
+      document.getElementById("statPendentes").innerText = countPendentes;
+      document.getElementById("badgePendentes").innerText = countPendentes;
+      document.getElementById("statSaques").innerText = "R$ " + totalSaques.toFixed(2).replace(".", ",");
+
+      // Pendentes
+      const divPendentes = document.getElementById("listaPendentes");
+      if (pendentesHTML === "") {
+        divPendentes.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">📭</div>
+            <p>Nenhum saque pendente</p>
+          </div>`;
+      } else {
+        divPendentes.innerHTML = `
+          <table class="nubank-table">
+            <thead>
+              <tr>
+                <th>ID Usuário</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Chave Pix</th>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>${pendentesHTML}</tbody>
+          </table>`;
+      }
+
+      // Todos
+      const divTodos = document.getElementById("listaTodosSaques");
+      if (todosHTML === "") {
+        divTodos.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">📊</div>
+            <p>Nenhum saque registrado</p>
+          </div>`;
+      } else {
+        divTodos.innerHTML = `
+          <table class="nubank-table">
+            <thead>
+              <tr>
+                <th>ID Usuário</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Chave Pix</th>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>${todosHTML}</tbody>
+          </table>`;
+      }
+    }
+
+    // ========== RENDERIZAR USUÁRIOS ==========
+    function renderizarUsuarios(usuarios) {
+      const div = document.getElementById("listaUsuarios");
+      if (Object.keys(usuarios).length === 0) {
+        div.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">👤</div>
+            <p>Nenhum usuário registrado</p>
+          </div>`;
+        return;
+      }
+
+      let html = `
+        <table class="nubank-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Saldo</th>
+              <th>Total Investido</th>
+              <th>Data Criação</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+      Object.entries(usuarios).forEach(([userId, user]) => {
+        html += `
+          <tr>
+            <td><span class="user-id">${userId}</span></td>
+            <td class="valor-pos">R$ ${(user.saldo || 0).toFixed(2).replace(".", ",")}</td>
+            <td>R$ ${(user.totalInvestido || 0).toFixed(2).replace(".", ",")}</td>
+            <td>${user.dataCriacao ? new Date(user.dataCriacao).toLocaleString('pt-BR') : '-'}</td>
+          </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      div.innerHTML = html;
+    }
+
+    // ========== RENDERIZAR DEPÓSITOS ==========
+    function renderizarDepositos(depositos) {
+      const div = document.getElementById("listaDepositosAdmin");
+      let todosDepositos = [];
+
+      Object.entries(depositos).forEach(([userId, userDeps]) => {
+        Object.entries(userDeps).forEach(([depId, dep]) => {
+          todosDepositos.push({ ...dep, userId, depId });
+        });
+      });
+
+      todosDepositos.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+      if (todosDepositos.length === 0) {
+        div.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">💵</div>
+            <p>Nenhum depósito registrado</p>
+          </div>`;
+        return;
+      }
+
+      let html = `
+        <table class="nubank-table">
+          <thead>
+            <tr>
+              <th>ID Usuário</th>
+              <th>Valor</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+      todosDepositos.slice(0, 50).forEach(dep => {
+        const statusClass = dep.status === 'Aprovado' ? 'aprovado' : dep.status === 'Rejeitado' ? 'rejeitado' : 'pendente';
+        const statusText = dep.status === 'Aprovado' ? 'Aprovado' : dep.status === 'Rejeitado' ? 'Rejeitado' : 'Pendente';
+        const botoes = dep.status === 'Pendente' ? `
+          <button class="btn-nubank btn-nubank-aprovar" onclick="aprovarDeposito('${dep.userId}', '${dep.depId}', ${dep.valor})">✓ Aprovar</button>
+          <button class="btn-nubank btn-nubank-rejeitar" onclick="rejeitarDeposito('${dep.userId}', '${dep.depId}')">✕ Rejeitar</button>
+        ` : '<span style="color: var(--nubank-gray);">-</span>';
+        
+        html += `
+          <tr>
+            <td><span class="user-id">${dep.userId}</span></td>
+            <td class="valor-pos">R$ ${dep.valor.toFixed(2).replace(".", ",")}</td>
+            <td>
+              <span class="status-nubank status-${statusClass}">
+                <span class="status-dot"></span>
+                ${statusText}
+              </span>
+            </td>
+            <td>${new Date(dep.data).toLocaleString('pt-BR')}</td>
+            <td>${botoes}</td>
+          </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      div.innerHTML = html;
+    }
+
+    // ========== AÇÕES SAQUES ==========
+    function aprovarSaque(userId, saqueId, valor, chavePix, tipoChave, nomeTitular) {
+      if (!confirm(`Aprovar saque de R$ ${valor.toFixed(2).replace(".", ",")} para ${nomeTitular}?`)) return;
+
+      db.ref(`saques/${userId}/${saqueId}`).update({
+        status: 'Aprovado',
+        dataAprovacao: new Date().toISOString()
+      }).then(() => {
+        mostrarToast(`✓ Saque de R$ ${valor.toFixed(2).replace(".", ",")} aprovado!`, "sucesso");
+      }).catch(err => {
+        mostrarToast("Erro: " + err.message, "erro");
+      });
+    }
+
+    function rejeitarSaque(userId, saqueId) {
+      if (!confirm("Rejeitar saque? O valor será devolvido ao usuário.")) return;
+
+      db.ref(`saques/${userId}/${saqueId}`).once('value').then(snapshot => {
+        const saque = snapshot.val();
+        if (!saque) return;
+
+        db.ref(`usuarios/${userId}/saldo`).once('value').then(saldoSnap => {
+          const saldoAtual = saldoSnap.val() || 0;
+          db.ref(`usuarios/${userId}/saldo`).set(saldoAtual + saque.valor);
+        });
+
+        db.ref(`saques/${userId}/${saqueId}`).update({
+          status: 'Rejeitado',
+          dataRejeicao: new Date().toISOString()
+        }).then(() => {
+          mostrarToast("Saque rejeitado e valor devolvido!", "sucesso");
+        });
+      });
+    }
+
+    // ========== AÇÕES DEPÓSITOS ==========
+    function aprovarDeposito(userId, depId, valor) {
+      if (!confirm(`Aprovar depósito de R$ ${valor.toFixed(2).replace(".", ",")}?`)) return;
+
+      db.ref(`depositosPendentes/${userId}/${depId}`).update({
+        status: 'Aprovado',
+        dataAprovacao: new Date().toISOString()
+      }).then(() => {
+        db.ref(`usuarios/${userId}/saldo`).once('value').then(saldoSnap => {
+          const saldoAtual = saldoSnap.val() || 0;
+          db.ref(`usuarios/${userId}/saldo`).set(saldoAtual + valor);
+        });
+
+        mostrarToast(`✓ Depósito de R$ ${valor.toFixed(2).replace(".", ",")} aprovado!`, "sucesso");
+      }).catch(err => {
+        mostrarToast("Erro: " + err.message, "erro");
+      });
+    }
+
+    function rejeitarDeposito(userId, depId) {
+      if (!confirm("Rejeitar depósito?")) return;
+
+      db.ref(`depositosPendentes/${userId}/${depId}`).update({
+        status: 'Rejeitado',
+        dataRejeicao: new Date().toISOString()
+      }).then(() => {
+        mostrarToast("Depósito rejeitado!", "sucesso");
+      }).catch(err => {
+        mostrarToast("Erro: " + err.message, "erro");
+      });
+    }
+
+    // ========== STATS ==========
+    function atualizarStats(saques) {
+      let countPendentes = 0;
+      let totalSaques = 0;
+
+      Object.values(saques).forEach(userSaques => {
+        Object.values(userSaques).forEach(saque => {
+          totalSaques += saque.valor;
+          if (saque.status === 'Pendente') countPendentes++;
+        });
+      });
+
+      document.getElementById("statPendentes").innerText = countPendentes;
+      document.getElementById("badgePendentes").innerText = countPendentes;
+      document.getElementById("statSaques").innerText = "R$ " + totalSaques.toFixed(2).replace(".", ",");
+    }
+
+    // ========== TOAST ==========
+    function mostrarToast(msg, tipo) {
+      const toast = document.createElement("div");
+      toast.className = "toast-nubank " + tipo;
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => { toast.remove(); }, 3000);
+    }
+
+    if (localStorage.getItem("investa_admin_logado") === "true") {
+      carregarDados();
+    }
+  </script>
+</body>
+</html>
