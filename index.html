@@ -456,13 +456,14 @@
     // ========== LOGIN ==========
     const ADMIN_USER = "admin";
     const ADMIN_PASS = "admin123";
+    let adminLogado = false;
 
     function fazerLogin() {
       const user = document.getElementById("adminUser").value;
       const pass = document.getElementById("adminPass").value;
 
       if (user === ADMIN_USER && pass === ADMIN_PASS) {
-        localStorage.setItem("investa_admin_logado", "true");
+        adminLogado = true;
         document.getElementById("telaLogin").classList.add("hidden");
         document.getElementById("painelAdmin").classList.remove("hidden");
         carregarDados();
@@ -472,17 +473,12 @@
     }
 
     function logout() {
-      localStorage.removeItem("investa_admin_logado");
+      adminLogado = false;
       document.getElementById("telaLogin").classList.remove("hidden");
       document.getElementById("painelAdmin").classList.add("hidden");
       document.getElementById("adminUser").value = "";
       document.getElementById("adminPass").value = "";
       document.getElementById("erroLogin").innerText = "";
-    }
-
-    if (localStorage.getItem("investa_admin_logado") === "true") {
-      document.getElementById("telaLogin").classList.add("hidden");
-      document.getElementById("painelAdmin").classList.remove("hidden");
     }
 
     // ========== DADOS ==========
@@ -692,7 +688,7 @@
           <button class="btn-nubank btn-nubank-aprovar" onclick="aprovarDeposito('${dep.userId}', '${dep.depId}', ${dep.valor})">✓ Aprovar</button>
           <button class="btn-nubank btn-nubank-rejeitar" onclick="rejeitarDeposito('${dep.userId}', '${dep.depId}')">✕ Rejeitar</button>
         ` : '<span style="color: var(--nubank-gray);">-</span>';
-        
+
         html += `
           <tr>
             <td><span class="user-id">${dep.userId}</span></td>
@@ -714,7 +710,7 @@
 
     // ========== AÇÕES SAQUES ==========
     function aprovarSaque(userId, saqueId, valor, chavePix, tipoChave, nomeTitular) {
-      if (!confirm(`Aprovar saque de R$ ${valor.toFixed(2).replace(".", ",")} para ${nomeTitular}?`)) return;
+      if (!confirm(`Aprovar saque de R$ ${valor.toFixed(2).replace(".", ",")}?`)) return;
 
       db.ref(`saques/${userId}/${saqueId}`).update({
         status: 'Aprovado',
@@ -803,10 +799,6 @@
       toast.innerText = msg;
       document.body.appendChild(toast);
       setTimeout(() => { toast.remove(); }, 3000);
-    }
-
-    if (localStorage.getItem("investa_admin_logado") === "true") {
-      carregarDados();
     }
   </script>
 </body>
