@@ -426,6 +426,11 @@
       border: 1px solid var(--nubank-red);
     }
     .btn-nubank-rejeitar:hover { background: rgba(255, 82, 82, 0.1); }
+    .btn-nubank-chat {
+      background: var(--nubank-blue);
+      color: #fff;
+    }
+    .btn-nubank-chat:hover { background: #1E88E5; transform: scale(1.05); }
 
     /* LEGENDA */
     .legenda-status {
@@ -566,6 +571,205 @@
     }
 
     .hidden { display: none !important; }
+
+    /* ===== CHAT DE SUPORTE ADMIN ===== */
+    .chat-suporte-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 4000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .chat-suporte-overlay.show { display: flex; }
+    .chat-suporte-container {
+      background: var(--nubank-card);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 500px;
+      height: 80vh;
+      max-height: 700px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .chat-suporte-header {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .chat-suporte-header .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .chat-suporte-header-info h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      margin: 0;
+    }
+    .chat-suporte-header-info p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      margin: 0;
+    }
+    .close-chat-suporte {
+      margin-left: auto;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chat-suporte-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg-suporte {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      animation: msgAppear 0.3s ease;
+    }
+    @keyframes msgAppear {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .msg-suporte.user {
+      background: #2d2d44;
+      color: #e0e0e0;
+      align-self: flex-start;
+      border-bottom-left-radius: 3px;
+    }
+    .msg-suporte.admin {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 3px;
+    }
+    .msg-suporte .msg-time {
+      font-size: 9px;
+      color: #6b6b8a;
+      margin-top: 3px;
+      text-align: right;
+    }
+    .msg-suporte.admin .msg-time {
+      color: rgba(255,255,255,0.7);
+    }
+    .chat-suporte-input-area {
+      padding: 12px 15px;
+      background: #1a1a2e;
+      border-top: 1px solid #2d2d44;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .chat-suporte-inp {
+      flex: 1;
+      background: #2d2d44;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      color: white;
+      font-size: 13px;
+      outline: none;
+    }
+    .chat-suporte-inp::placeholder { color: #6b6b8a; }
+    .send-btn-suporte {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      border: none;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* LISTA DE CHATS */
+    .chat-list-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chat-list-item:hover {
+      background: rgba(255,255,255,0.03);
+    }
+    .chat-list-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .chat-list-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .chat-list-info .name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .chat-list-info .last-msg {
+      font-size: 12px;
+      color: var(--nubank-gray);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chat-list-badge {
+      background: var(--nubank-red);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .chat-list-time {
+      font-size: 11px;
+      color: var(--nubank-gray);
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -608,6 +812,9 @@
       <button class="nav-tab" onclick="mostrarAba('usuarios')" id="tab-usuarios">
         👥 Usuários
       </button>
+      <button class="nav-tab" onclick="mostrarAba('suporte')" id="tab-suporte">
+        💬 Suporte <span class="badge" id="navBadgeSuporte">0</span>
+      </button>
     </div>
 
     <!-- ABA DASHBOARD -->
@@ -647,11 +854,12 @@
 
       <div class="info-card">
         <h3>⚡ Como usar o painel</h3>
-        <p>Navegue pelas abas acima para gerenciar saques, depósitos e usuários.</p>
+        <p>Navegue pelas abas acima para gerenciar saques, depósitos, usuários e suporte.</p>
         <div class="steps">
           <div class="step"><span class="num">1</span> Aba "Saques" → Aprovar/Rejeitar saques pendentes</div>
           <div class="step"><span class="num">2</span> Aba "Depósitos" → Confirmar pagamentos recebidos</div>
           <div class="step"><span class="num">3</span> Aba "Usuários" → Ver todos os usuários cadastrados</div>
+          <div class="step"><span class="num">4</span> Aba "Suporte" → Responder mensagens dos usuários</div>
         </div>
       </div>
     </div>
@@ -730,7 +938,7 @@
     <div id="aba-usuarios" class="tab-content">
       <div class="info-card">
         <h3>💡 Lista de Usuários</h3>
-        <p>Todos os usuários cadastrados no app. Você pode ver o saldo de cada um, total investido e data de criação da conta.</p>
+        <p>Todos os usuários cadastrados no app. Você pode ver o saldo de cada um, total investido e data de criação da conta. Clique em "Chat" para conversar diretamente com o usuário.</p>
       </div>
 
       <div class="section-header">
@@ -740,6 +948,26 @@
         <div class="empty-nubank">
           <div class="icon">👤</div>
           <p>Nenhum usuário registrado</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA SUPORTE -->
+    <div id="aba-suporte" class="tab-content">
+      <div class="info-card">
+        <h3>💬 Central de Suporte</h3>
+        <p>Aqui você responde as mensagens dos usuários. Cada usuário tem um chat privado. Clique em um chat para abrir e responder.</p>
+      </div>
+
+      <div class="section-header">
+        <h2>💬 Chats de Suporte</h2>
+        <span class="badge-count" id="badgeSuporteCount">0</span>
+      </div>
+      <div class="nubank-card" id="listaChatsSuporte">
+        <div class="empty-nubank">
+          <div class="icon">💬</div>
+          <p>Nenhuma mensagem de suporte</p>
+          <p style="font-size: 12px; margin-top: 8px;">Quando um usuário enviar mensagem, ela aparecerá aqui</p>
         </div>
       </div>
     </div>
@@ -753,6 +981,26 @@
       <div class="modal-actions">
         <button class="modal-btn-cancel" onclick="fecharModal()">Cancelar</button>
         <button id="modalBtnConfirm" class="modal-btn-confirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT DE SUPORTE MODAL -->
+  <div id="chatSuporteOverlay" class="chat-suporte-overlay">
+    <div class="chat-suporte-container">
+      <div class="chat-suporte-header">
+        <div class="avatar" id="chatSuporteAvatar">👤</div>
+        <div class="chat-suporte-header-info">
+          <h3 id="chatSuporteNome">Usuário</h3>
+          <p id="chatSuporteId">ID: ---</p>
+        </div>
+        <button class="close-chat-suporte" onclick="fecharChatSuporte()">✕</button>
+      </div>
+      <div class="chat-suporte-messages" id="chatSuporteMessages">
+      </div>
+      <div class="chat-suporte-input-area">
+        <input type="text" class="chat-suporte-inp" id="chatSuporteInp" placeholder="Digite sua resposta..." onkeypress="if(event.key==='Enter')enviarMsgAdmin()">
+        <button class="send-btn-suporte" onclick="enviarMsgAdmin()">➤</button>
       </div>
     </div>
   </div>
@@ -830,6 +1078,9 @@
         renderizarDepositos(depositos);
         atualizarStatsDepositos(depositos);
       });
+
+      // Carrega chats de suporte
+      carregarChatsSuporte();
     }
 
     // ========== RENDERIZAR SAQUES ==========
@@ -1078,6 +1329,7 @@
                 <th>Saldo Atual</th>
                 <th>Total Investido</th>
                 <th>Data de Criação</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>`;
@@ -1089,6 +1341,11 @@
             <td class="valor-pos">R$ ${(user.saldo || 0).toFixed(2).replace(".", ",")}</td>
             <td>R$ ${(user.totalInvestido || 0).toFixed(2).replace(".", ",")}</td>
             <td>${user.dataCriacao ? new Date(user.dataCriacao).toLocaleString('pt-BR') : '-'}</td>
+            <td>
+              <div class="acoes-cell">
+                <button class="btn-nubank btn-nubank-chat" onclick="abrirChatSuporte('${userId}')">💬 Chat</button>
+              </div>
+            </td>
           </tr>`;
       });
 
@@ -1314,6 +1571,149 @@
       toast.innerText = msg;
       document.body.appendChild(toast);
       setTimeout(() => { toast.remove(); }, 4000);
+    }
+
+    // ========== CHAT DE SUPORTE ==========
+    let chatAtualUserId = null;
+    let chatSuporteListener = null;
+
+    function carregarChatsSuporte() {
+      db.ref('suporte').on('value', (snapshot) => {
+        const suporteData = snapshot.val() || {};
+        renderizarListaChats(suporteData);
+      });
+    }
+
+    function renderizarListaChats(suporteData) {
+      const div = document.getElementById("listaChatsSuporte");
+      const chats = Object.entries(suporteData);
+      
+      let totalNaoLidas = 0;
+
+      if (chats.length === 0) {
+        div.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">💬</div>
+            <p>Nenhuma mensagem de suporte</p>
+            <p style="font-size: 12px; margin-top: 8px;">Quando um usuário enviar mensagem, ela aparecerá aqui</p>
+          </div>`;
+        document.getElementById("badgeSuporteCount").innerText = "0";
+        document.getElementById("navBadgeSuporte").innerText = "0";
+        return;
+      }
+
+      let html = '';
+      
+      chats.sort((a, b) => {
+        const msgsA = Object.values(a[1].mensagens || {});
+        const msgsB = Object.values(b[1].mensagens || {});
+        const lastA = msgsA.length > 0 ? msgsA[msgsA.length - 1].data : '';
+        const lastB = msgsB.length > 0 ? msgsB[msgsB.length - 1].data : '';
+        return new Date(lastB) - new Date(lastA);
+      });
+
+      chats.forEach(([userId, chatData]) => {
+        const mensagens = Object.values(chatData.mensagens || {});
+        if (mensagens.length === 0) return;
+        
+        const ultimaMsg = mensagens[mensagens.length - 1];
+        const naoLidas = mensagens.filter(m => m.tipo === 'user' && !m.lida).length;
+        totalNaoLidas += naoLidas;
+        
+        const hora = ultimaMsg.data ? new Date(ultimaMsg.data).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) : '';
+        
+        html += `
+          <div class="chat-list-item" onclick="abrirChatSuporte('${userId}')">
+            <div class="chat-list-avatar">👤</div>
+            <div class="chat-list-info">
+              <div class="name">Usuário ${userId}</div>
+              <div class="last-msg">${ultimaMsg.texto}</div>
+            </div>
+            ${naoLidas > 0 ? `<span class="chat-list-badge">${naoLidas}</span>` : ''}
+            <span class="chat-list-time">${hora}</span>
+          </div>
+        `;
+      });
+
+      div.innerHTML = html || `
+        <div class="empty-nubank">
+          <div class="icon">💬</div>
+          <p>Nenhuma mensagem de suporte</p>
+        </div>`;
+      
+      document.getElementById("badgeSuporteCount").innerText = totalNaoLidas;
+      document.getElementById("navBadgeSuporte").innerText = totalNaoLidas;
+    }
+
+    function abrirChatSuporte(userId) {
+      chatAtualUserId = userId;
+      document.getElementById("chatSuporteNome").innerText = "Usuário " + userId;
+      document.getElementById("chatSuporteId").innerText = "ID: " + userId;
+      document.getElementById("chatSuporteOverlay").classList.add("show");
+      document.getElementById("chatSuporteInp").focus();
+      
+      // Carrega mensagens
+      carregarMensagensChat(userId);
+      
+      // Marca como lidas
+      marcarComoLidas(userId);
+    }
+
+    function fecharChatSuporte() {
+      document.getElementById("chatSuporteOverlay").classList.remove("show");
+      chatAtualUserId = null;
+      if (chatSuporteListener) {
+        chatSuporteListener.off();
+        chatSuporteListener = null;
+      }
+    }
+
+    function carregarMensagensChat(userId) {
+      const div = document.getElementById("chatSuporteMessages");
+      div.innerHTML = '';
+      
+      if (chatSuporteListener) {
+        chatSuporteListener.off();
+      }
+      
+      chatSuporteListener = db.ref(`suporte/${userId}/mensagens`);
+      chatSuporteListener.on('child_added', (snapshot) => {
+        const msg = snapshot.val();
+        if (!msg) return;
+        
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'msg-suporte ' + msg.tipo;
+        msgDiv.innerHTML = msg.texto + `<div class="msg-time">${new Date(msg.data).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</div>`;
+        div.appendChild(msgDiv);
+        div.scrollTop = div.scrollHeight;
+      });
+    }
+
+    function marcarComoLidas(userId) {
+      db.ref(`suporte/${userId}/mensagens`).once('value').then(snapshot => {
+        const msgs = snapshot.val() || {};
+        Object.entries(msgs).forEach(([key, msg]) => {
+          if (msg.tipo === 'user' && !msg.lida) {
+            db.ref(`suporte/${userId}/mensagens/${key}`).update({ lida: true });
+          }
+        });
+      });
+    }
+
+    function enviarMsgAdmin() {
+      const texto = document.getElementById("chatSuporteInp").value.trim();
+      if (!texto || !chatAtualUserId) return;
+      
+      const msgData = {
+        texto: texto,
+        tipo: 'admin',
+        userId: chatAtualUserId,
+        data: new Date().toISOString(),
+        lida: false
+      };
+      
+      db.ref(`suporte/${chatAtualUserId}/mensagens`).push().set(msgData);
+      document.getElementById("chatSuporteInp").value = '';
     }
   </script>
 </body>
