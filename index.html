@@ -18,6 +18,7 @@
       --nubank-green: #00C853;
       --nubank-red: #FF5252;
       --nubank-orange: #FFAB00;
+      --nubank-blue: #2196F3;
     }
 
     body {
@@ -110,13 +111,16 @@
     /* HEADER */
     .app-header {
       background: var(--nubank-purple);
-      padding: 20px 30px;
+      padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .app-header h1 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
     }
     .app-header .user-info {
@@ -124,7 +128,6 @@
       align-items: center;
       gap: 10px;
       font-size: 14px;
-      opacity: 0.9;
     }
     .btn-sair {
       background: rgba(255,255,255,0.15);
@@ -138,19 +141,70 @@
     }
     .btn-sair:hover { background: rgba(255,255,255,0.25); }
 
+    /* NAVEGAÇÃO POR ABAS */
+    .nav-tabs {
+      display: flex;
+      gap: 5px;
+      padding: 10px 15px;
+      background: var(--nubank-purple);
+      overflow-x: auto;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-tab {
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .nav-tab:hover {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    .nav-tab.active {
+      background: #fff;
+      color: var(--nubank-purple);
+    }
+    .nav-tab .badge {
+      background: var(--nubank-red);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* CONTEÚDO DAS ABAS */
+    .tab-content {
+      display: none;
+      padding: 15px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
     /* CARDS DE STATS */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
     }
     .stat-nubank {
       background: var(--nubank-card);
       border-radius: 16px;
-      padding: 20px;
+      padding: 16px;
       position: relative;
       overflow: hidden;
     }
@@ -163,36 +217,80 @@
       height: 3px;
       background: var(--nubank-purple);
     }
-    .stat-nubank .label {
-      color: var(--nubank-gray);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .stat-nubank .icon-stat {
+      font-size: 24px;
       margin-bottom: 8px;
     }
+    .stat-nubank .label {
+      color: var(--nubank-gray);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
     .stat-nubank .value {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 700;
     }
     .stat-nubank .value.green { color: var(--nubank-green); }
     .stat-nubank .value.red { color: var(--nubank-red); }
     .stat-nubank .value.purple { color: var(--nubank-purple); }
     .stat-nubank .value.orange { color: var(--nubank-orange); }
+    .stat-nubank .value.blue { color: var(--nubank-blue); }
+
+    /* INFO CARD - EXPLICAÇÃO */
+    .info-card {
+      background: linear-gradient(135deg, rgba(130, 10, 209, 0.15), rgba(33, 150, 243, 0.1));
+      border: 1px solid rgba(130, 10, 209, 0.3);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .info-card h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: var(--nubank-purple);
+    }
+    .info-card p {
+      color: var(--nubank-gray);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .info-card .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .info-card .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #e0e0e0;
+    }
+    .info-card .step .num {
+      width: 22px;
+      height: 22px;
+      background: var(--nubank-purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
 
     /* SEÇÕES */
-    .nubank-section {
-      max-width: 1200px;
-      margin: 15px auto;
-      padding: 0 20px;
-    }
     .section-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     .section-header h2 {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
     }
     .section-header .badge-count {
@@ -208,28 +306,46 @@
       background: var(--nubank-card);
       border-radius: 16px;
       overflow: hidden;
+      margin-bottom: 20px;
     }
 
-    /* TABELA */
+    /* TABELA - SCROLL HORIZONTAL */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table-wrapper::-webkit-scrollbar {
+      height: 4px;
+    }
+    .table-wrapper::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+    .table-wrapper::-webkit-scrollbar-thumb {
+      background: var(--nubank-purple);
+      border-radius: 2px;
+    }
     .nubank-table {
       width: 100%;
+      min-width: 700px;
       border-collapse: collapse;
-      font-size: 14px;
+      font-size: 13px;
     }
     .nubank-table th {
       background: rgba(130, 10, 209, 0.15);
-      padding: 14px 16px;
+      padding: 12px 10px;
       text-align: left;
       color: var(--nubank-gray);
       font-weight: 500;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
     .nubank-table td {
-      padding: 14px 16px;
+      padding: 12px 10px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
       color: #e0e0e0;
+      white-space: nowrap;
     }
     .nubank-table tr:hover {
       background: rgba(255,255,255,0.03);
@@ -239,6 +355,8 @@
     .user-id {
       font-weight: 600;
       color: var(--nubank-purple);
+      font-family: monospace;
+      font-size: 12px;
     }
     .valor-pos { color: var(--nubank-green); font-weight: 600; }
     .valor-neg { color: var(--nubank-red); font-weight: 600; }
@@ -248,9 +366,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 5px 10px;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
     }
     .status-pendente {
@@ -266,23 +384,36 @@
       color: var(--nubank-red);
     }
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
+      animation: pulse 2s infinite;
     }
     .status-pendente .status-dot { background: var(--nubank-orange); }
-    .status-aprovado .status-dot { background: var(--nubank-green); }
-    .status-rejeitado .status-dot { background: var(--nubank-red); }
+    .status-aprovado .status-dot { background: var(--nubank-green); animation: none; }
+    .status-rejeitado .status-dot { background: var(--nubank-red); animation: none; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
 
-    /* BOTÕES */
+    /* BOTÕES DE AÇÃO */
+    .acoes-cell {
+      display: flex;
+      gap: 6px;
+    }
     .btn-nubank {
-      padding: 8px 18px;
+      padding: 8px 14px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
     }
     .btn-nubank-aprovar {
       background: var(--nubank-green);
@@ -293,21 +424,122 @@
       background: transparent;
       color: var(--nubank-red);
       border: 1px solid var(--nubank-red);
-      margin-left: 8px;
     }
     .btn-nubank-rejeitar:hover { background: rgba(255, 82, 82, 0.1); }
+
+    /* LEGENDA */
+    .legenda-status {
+      display: flex;
+      gap: 15px;
+      padding: 12px 15px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      flex-wrap: wrap;
+    }
+    .legenda-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--nubank-gray);
+    }
+    .legenda-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
 
     /* EMPTY */
     .empty-nubank {
       text-align: center;
-      padding: 50px 20px;
+      padding: 40px 20px;
       color: var(--nubank-gray);
     }
     .empty-nubank .icon {
-      font-size: 50px;
-      margin-bottom: 15px;
+      font-size: 40px;
+      margin-bottom: 12px;
       opacity: 0.5;
     }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      padding: 20px;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--nubank-card);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 450px;
+      width: 100%;
+      animation: modalIn 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    @keyframes modalIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-content h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .modal-content .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .modal-content .detail-row:last-child {
+      border-bottom: none;
+    }
+    .modal-content .detail-label {
+      color: var(--nubank-gray);
+      font-size: 13px;
+    }
+    .modal-content .detail-value {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .modal-actions button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .modal-btn-confirm {
+      background: var(--nubank-green);
+      color: #fff;
+    }
+    .modal-btn-confirm:hover { background: #00B248; }
+    .modal-btn-cancel {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .modal-btn-cancel:hover { background: rgba(255,255,255,0.15); }
+    .modal-btn-danger {
+      background: var(--nubank-red);
+      color: #fff;
+    }
+    .modal-btn-danger:hover { background: #E04848; }
 
     /* TOAST */
     .toast-nubank {
@@ -334,14 +566,6 @@
     }
 
     .hidden { display: none !important; }
-
-    @media (max-width: 768px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .nubank-table { font-size: 12px; }
-      .nubank-table th, .nubank-table td { padding: 10px; }
-      .app-header { padding: 15px 20px; }
-      .app-header h1 { font-size: 16px; }
-    }
   </style>
 </head>
 <body>
@@ -370,28 +594,80 @@
       </div>
     </div>
 
-    <!-- STATS -->
-    <div class="stats-grid">
-      <div class="stat-nubank">
-        <div class="label">Saques Pendentes</div>
-        <div class="value red" id="statPendentes">0</div>
+    <!-- NAVEGAÇÃO POR ABAS -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="mostrarAba('dashboard')" id="tab-dashboard">
+        📊 Dashboard
+      </button>
+      <button class="nav-tab" onclick="mostrarAba('saques')" id="tab-saques">
+        💸 Saques <span class="badge" id="navBadgeSaques">0</span>
+      </button>
+      <button class="nav-tab" onclick="mostrarAba('depositos')" id="tab-depositos">
+        💰 Depósitos <span class="badge" id="navBadgeDepositos">0</span>
+      </button>
+      <button class="nav-tab" onclick="mostrarAba('usuarios')" id="tab-usuarios">
+        👥 Usuários
+      </button>
+    </div>
+
+    <!-- ABA DASHBOARD -->
+    <div id="aba-dashboard" class="tab-content active">
+      <div class="stats-grid">
+        <div class="stat-nubank">
+          <div class="icon-stat">⏳</div>
+          <div class="label">Saques Pendentes</div>
+          <div class="value red" id="statPendentes">0</div>
+        </div>
+        <div class="stat-nubank">
+          <div class="icon-stat">👥</div>
+          <div class="label">Total Usuários</div>
+          <div class="value purple" id="statUsuarios">0</div>
+        </div>
+        <div class="stat-nubank">
+          <div class="icon-stat">💵</div>
+          <div class="label">Total Investido</div>
+          <div class="value green" id="statInvestido">R$ 0,00</div>
+        </div>
+        <div class="stat-nubank">
+          <div class="icon-stat">💸</div>
+          <div class="label">Total em Saques</div>
+          <div class="value orange" id="statSaques">R$ 0,00</div>
+        </div>
+        <div class="stat-nubank">
+          <div class="icon-stat">💰</div>
+          <div class="label">Depósitos Pendentes</div>
+          <div class="value blue" id="statDepPendentes">0</div>
+        </div>
+        <div class="stat-nubank">
+          <div class="icon-stat">📈</div>
+          <div class="label">Saldo Total em Contas</div>
+          <div class="value green" id="statSaldoTotal">R$ 0,00</div>
+        </div>
       </div>
-      <div class="stat-nubank">
-        <div class="label">Total Usuários</div>
-        <div class="value purple" id="statUsuarios">0</div>
-      </div>
-      <div class="stat-nubank">
-        <div class="label">Total Investido</div>
-        <div class="value green" id="statInvestido">R$ 0,00</div>
-      </div>
-      <div class="stat-nubank">
-        <div class="label">Total em Saques</div>
-        <div class="value orange" id="statSaques">R$ 0,00</div>
+
+      <div class="info-card">
+        <h3>⚡ Como usar o painel</h3>
+        <p>Navegue pelas abas acima para gerenciar saques, depósitos e usuários.</p>
+        <div class="steps">
+          <div class="step"><span class="num">1</span> Aba "Saques" → Aprovar/Rejeitar saques pendentes</div>
+          <div class="step"><span class="num">2</span> Aba "Depósitos" → Confirmar pagamentos recebidos</div>
+          <div class="step"><span class="num">3</span> Aba "Usuários" → Ver todos os usuários cadastrados</div>
+        </div>
       </div>
     </div>
 
-    <!-- SAQUES PENDENTES -->
-    <div class="nubank-section">
+    <!-- ABA SAQUES -->
+    <div id="aba-saques" class="tab-content">
+      <div class="info-card">
+        <h3>💡 Gerenciamento de Saques</h3>
+        <p>Aqui você aprova ou rejeita os pedidos de saque dos usuários. Ao aprovar, o saque é marcado como pago. Ao rejeitar, o valor volta para o saldo do usuário automaticamente.</p>
+        <div class="steps">
+          <div class="step"><span class="num">1</span> Veja os saques pendentes na lista abaixo</div>
+          <div class="step"><span class="num">2</span> Clique em "Aprovar" para confirmar o pagamento Pix</div>
+          <div class="step"><span class="num">3</span> Clique em "Rejeitar" para devolver o valor ao usuário</div>
+        </div>
+      </div>
+
       <div class="section-header">
         <h2>⏳ Saques Pendentes</h2>
         <span class="badge-count" id="badgePendentes">0</span>
@@ -400,12 +676,10 @@
         <div class="empty-nubank">
           <div class="icon">📭</div>
           <p>Nenhum saque pendente</p>
+          <p style="font-size: 12px; margin-top: 8px;">Quando um usuário solicitar saque, ele aparecerá aqui</p>
         </div>
       </div>
-    </div>
 
-    <!-- HISTÓRICO SAQUES -->
-    <div class="nubank-section">
       <div class="section-header">
         <h2>📋 Histórico de Saques</h2>
       </div>
@@ -417,10 +691,50 @@
       </div>
     </div>
 
-    <!-- USUÁRIOS -->
-    <div class="nubank-section">
+    <!-- ABA DEPÓSITOS -->
+    <div id="aba-depositos" class="tab-content">
+      <div class="info-card">
+        <h3>💡 Gerenciamento de Depósitos</h3>
+        <p>Aqui você confirma os pagamentos que os usuários fizeram via Pix. Ao aprovar, o valor é creditado no saldo deles. Verifique se o pagamento realmente caiu antes de aprovar.</p>
+        <div class="steps">
+          <div class="step"><span class="num">1</span> Verifique se o pagamento caiu na conta</div>
+          <div class="step"><span class="num">2</span> Clique em "Aprovar" para creditar o valor</div>
+          <div class="step"><span class="num">3</span> Clique em "Rejeitar" se o pagamento não foi identificado</div>
+        </div>
+      </div>
+
       <div class="section-header">
-        <h2>👥 Usuários</h2>
+        <h2>💰 Depósitos Pendentes</h2>
+        <span class="badge-count" id="badgeDepPendentes">0</span>
+      </div>
+      <div class="nubank-card" id="listaDepositosPendentes">
+        <div class="empty-nubank">
+          <div class="icon">💵</div>
+          <p>Nenhum depósito pendente</p>
+          <p style="font-size: 12px; margin-top: 8px;">Quando um usuário fizer depósito, ele aparecerá aqui</p>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>📋 Histórico de Depósitos</h2>
+      </div>
+      <div class="nubank-card" id="listaTodosDepositos">
+        <div class="empty-nubank">
+          <div class="icon">📊</div>
+          <p>Nenhum depósito registrado</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA USUÁRIOS -->
+    <div id="aba-usuarios" class="tab-content">
+      <div class="info-card">
+        <h3>💡 Lista de Usuários</h3>
+        <p>Todos os usuários cadastrados no app. Você pode ver o saldo de cada um, total investido e data de criação da conta.</p>
+      </div>
+
+      <div class="section-header">
+        <h2>👥 Todos os Usuários</h2>
       </div>
       <div class="nubank-card" id="listaUsuarios">
         <div class="empty-nubank">
@@ -429,17 +743,16 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- DEPÓSITOS -->
-    <div class="nubank-section">
-      <div class="section-header">
-        <h2>💰 Depósitos Recentes</h2>
-      </div>
-      <div class="nubank-card" id="listaDepositosAdmin">
-        <div class="empty-nubank">
-          <div class="icon">💵</div>
-          <p>Nenhum depósito registrado</p>
-        </div>
+  <!-- MODAL DE CONFIRMAÇÃO -->
+  <div id="modalConfirm" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modalTitle">Confirmar Ação</h3>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="fecharModal()">Cancelar</button>
+        <button id="modalBtnConfirm" class="modal-btn-confirm">Confirmar</button>
       </div>
     </div>
   </div>
@@ -481,12 +794,20 @@
       document.getElementById("erroLogin").innerText = "";
     }
 
+    // ========== NAVEGAÇÃO ==========
+    function mostrarAba(aba) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('aba-' + aba).classList.add('active');
+      document.getElementById('tab-' + aba).classList.add('active');
+    }
+
     // ========== DADOS ==========
     function carregarDados() {
       db.ref('saques').on('value', (snapshot) => {
         const saques = snapshot.val() || {};
         renderizarSaques(saques);
-        atualizarStats(saques);
+        atualizarStatsSaques(saques);
       });
 
       db.ref('usuarios').on('value', (snapshot) => {
@@ -495,15 +816,19 @@
         document.getElementById("statUsuarios").innerText = Object.keys(usuarios).length;
 
         let totalInvestido = 0;
+        let saldoTotal = 0;
         Object.values(usuarios).forEach(u => {
           totalInvestido += (u.totalInvestido || 0);
+          saldoTotal += (u.saldo || 0);
         });
         document.getElementById("statInvestido").innerText = "R$ " + totalInvestido.toFixed(2).replace(".", ",");
+        document.getElementById("statSaldoTotal").innerText = "R$ " + saldoTotal.toFixed(2).replace(".", ",");
       });
 
       db.ref('depositosPendentes').on('value', (snapshot) => {
         const depositos = snapshot.val() || {};
         renderizarDepositos(depositos);
+        atualizarStatsDepositos(depositos);
       });
     }
 
@@ -518,28 +843,7 @@
         Object.entries(userSaques).forEach(([saqueId, saque]) => {
           totalSaques += saque.valor;
 
-          const row = `
-            <tr>
-              <td><span class="user-id">${userId}</span></td>
-              <td class="valor-neg">R$ ${saque.valor.toFixed(2).replace(".", ",")}</td>
-              <td>${saque.tipoChave.toUpperCase()}</td>
-              <td>${saque.chavePix}</td>
-              <td>${saque.nomeTitular}</td>
-              <td>${new Date(saque.data).toLocaleString('pt-BR')}</td>
-              <td>
-                <span class="status-nubank status-${saque.status.toLowerCase()}">
-                  <span class="status-dot"></span>
-                  ${saque.status}
-                </span>
-              </td>
-              <td>
-                ${saque.status === 'Pendente' ? `
-                  <button class="btn-nubank btn-nubank-aprovar" onclick="aprovarSaque('${userId}', '${saqueId}', ${saque.valor}, '${saque.chavePix}', '${saque.tipoChave}', '${saque.nomeTitular}')">✓ Aprovar</button>
-                  <button class="btn-nubank btn-nubank-rejeitar" onclick="rejeitarSaque('${userId}', '${saqueId}')">✕ Rejeitar</button>
-                ` : '<span style="color: var(--nubank-gray);">-</span>'}
-              </td>
-            </tr>
-          `;
+          const row = criarRowSaque(userId, saqueId, saque);
 
           todosHTML += row;
           if (saque.status === 'Pendente') {
@@ -551,6 +855,7 @@
 
       document.getElementById("statPendentes").innerText = countPendentes;
       document.getElementById("badgePendentes").innerText = countPendentes;
+      document.getElementById("navBadgeSaques").innerText = countPendentes;
       document.getElementById("statSaques").innerText = "R$ " + totalSaques.toFixed(2).replace(".", ",");
 
       // Pendentes
@@ -560,24 +865,27 @@
           <div class="empty-nubank">
             <div class="icon">📭</div>
             <p>Nenhum saque pendente</p>
+            <p style="font-size: 12px; margin-top: 8px;">Quando um usuário solicitar saque, ele aparecerá aqui</p>
           </div>`;
       } else {
         divPendentes.innerHTML = `
-          <table class="nubank-table">
-            <thead>
-              <tr>
-                <th>ID Usuário</th>
-                <th>Valor</th>
-                <th>Tipo</th>
-                <th>Chave Pix</th>
-                <th>Nome</th>
-                <th>Data</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>${pendentesHTML}</tbody>
-          </table>`;
+          <div class="table-wrapper">
+            <table class="nubank-table">
+              <thead>
+                <tr>
+                  <th>ID Usuário</th>
+                  <th>Valor</th>
+                  <th>Tipo Chave</th>
+                  <th>Chave Pix</th>
+                  <th>Nome Titular</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th style="min-width: 180px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>${pendentesHTML}</tbody>
+            </table>
+          </div>`;
       }
 
       // Todos
@@ -590,22 +898,163 @@
           </div>`;
       } else {
         divTodos.innerHTML = `
-          <table class="nubank-table">
-            <thead>
-              <tr>
-                <th>ID Usuário</th>
-                <th>Valor</th>
-                <th>Tipo</th>
-                <th>Chave Pix</th>
-                <th>Nome</th>
-                <th>Data</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>${todosHTML}</tbody>
-          </table>`;
+          <div class="table-wrapper">
+            <table class="nubank-table">
+              <thead>
+                <tr>
+                  <th>ID Usuário</th>
+                  <th>Valor</th>
+                  <th>Tipo Chave</th>
+                  <th>Chave Pix</th>
+                  <th>Nome Titular</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th style="min-width: 180px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>${todosHTML}</tbody>
+            </table>
+          </div>
+          <div class="legenda-status">
+            <div class="legenda-item"><div class="legenda-dot" style="background: var(--nubank-orange)"></div> Pendente = Aguardando aprovação</div>
+            <div class="legenda-item"><div class="legenda-dot" style="background: var(--nubank-green)"></div> Aprovado = Pagamento realizado</div>
+            <div class="legenda-item"><div class="legenda-dot" style="background: var(--nubank-red)"></div> Rejeitado = Valor devolvido ao usuário</div>
+          </div>`;
       }
+    }
+
+    function criarRowSaque(userId, saqueId, saque) {
+      const dataFormatada = saque.data ? new Date(saque.data).toLocaleString('pt-BR') : '-';
+      const statusClass = saque.status.toLowerCase();
+      const acoes = saque.status === 'Pendente' ? `
+        <div class="acoes-cell">
+          <button class="btn-nubank btn-nubank-aprovar" onclick="confirmarAprovarSaque('${userId}', '${saqueId}', ${saque.valor}, '${saque.chavePix || ''}', '${saque.tipoChave || ''}', '${saque.nomeTitular || ''}')">✓ Aprovar</button>
+          <button class="btn-nubank btn-nubank-rejeitar" onclick="confirmarRejeitarSaque('${userId}', '${saqueId}', ${saque.valor})">✕ Rejeitar</button>
+        </div>
+      ` : '<span style="color: var(--nubank-gray);">-</span>';
+
+      return `
+        <tr>
+          <td><span class="user-id">${userId}</span></td>
+          <td class="valor-neg">R$ ${saque.valor.toFixed(2).replace(".", ",")}</td>
+          <td>${saque.tipoChave ? saque.tipoChave.toUpperCase() : '-'}</td>
+          <td>${saque.chavePix || '-'}</td>
+          <td>${saque.nomeTitular || '-'}</td>
+          <td>${dataFormatada}</td>
+          <td>
+            <span class="status-nubank status-${statusClass}">
+              <span class="status-dot"></span>
+              ${saque.status}
+            </span>
+          </td>
+          <td>${acoes}</td>
+        </tr>
+      `;
+    }
+
+    // ========== RENDERIZAR DEPÓSITOS ==========
+    function renderizarDepositos(depositos) {
+      let pendentesHTML = "";
+      let todosHTML = "";
+      let countPendentes = 0;
+
+      Object.entries(depositos).forEach(([userId, userDeps]) => {
+        Object.entries(userDeps).forEach(([depId, dep]) => {
+          const row = criarRowDeposito(userId, depId, dep);
+          todosHTML += row;
+          if (dep.status === 'Pendente') {
+            pendentesHTML += row;
+            countPendentes++;
+          }
+        });
+      });
+
+      // Depósitos pendentes
+      const divPendentes = document.getElementById("listaDepositosPendentes");
+      if (pendentesHTML === "") {
+        divPendentes.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">💵</div>
+            <p>Nenhum depósito pendente</p>
+            <p style="font-size: 12px; margin-top: 8px;">Quando um usuário fizer depósito, ele aparecerá aqui</p>
+          </div>`;
+      } else {
+        divPendentes.innerHTML = `
+          <div class="table-wrapper">
+            <table class="nubank-table">
+              <thead>
+                <tr>
+                  <th>ID Usuário</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                  <th style="min-width: 180px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>${pendentesHTML}</tbody>
+            </table>
+          </div>`;
+      }
+
+      // Todos depósitos
+      const divTodos = document.getElementById("listaTodosDepositos");
+      if (todosHTML === "") {
+        divTodos.innerHTML = `
+          <div class="empty-nubank">
+            <div class="icon">📊</div>
+            <p>Nenhum depósito registrado</p>
+          </div>`;
+      } else {
+        divTodos.innerHTML = `
+          <div class="table-wrapper">
+            <table class="nubank-table">
+              <thead>
+                <tr>
+                  <th>ID Usuário</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                  <th style="min-width: 180px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>${todosHTML}</tbody>
+            </table>
+          </div>
+          <div class="legenda-status">
+            <div class="legenda-item"><div class="legenda-dot" style="background: var(--nubank-orange)"></div> Pendente = Aguardando confirmação</div>
+            <div class="legenda-item"><div class="legenda-dot" style="background: var(--nubank-green)"></div> Aprovado = Valor creditado no usuário</div>
+            <div class="legenda-item"><div class="legenda-dot" style="background: var(--nubank-red)"></div> Rejeitado = Pagamento não identificado</div>
+          </div>`;
+      }
+
+      document.getElementById("statDepPendentes").innerText = countPendentes;
+      document.getElementById("badgeDepPendentes").innerText = countPendentes;
+      document.getElementById("navBadgeDepositos").innerText = countPendentes;
+    }
+
+    function criarRowDeposito(userId, depId, dep) {
+      const statusClass = dep.status === 'Aprovado' ? 'aprovado' : dep.status === 'Rejeitado' ? 'rejeitado' : 'pendente';
+      const acoes = dep.status === 'Pendente' ? `
+        <div class="acoes-cell">
+          <button class="btn-nubank btn-nubank-aprovar" onclick="confirmarAprovarDeposito('${userId}', '${depId}', ${dep.valor})">✓ Aprovar</button>
+          <button class="btn-nubank btn-nubank-rejeitar" onclick="confirmarRejeitarDeposito('${userId}', '${depId}', ${dep.valor})">✕ Rejeitar</button>
+        </div>
+      ` : '<span style="color: var(--nubank-gray);">-</span>';
+
+      return `
+        <tr>
+          <td><span class="user-id">${userId}</span></td>
+          <td class="valor-pos">R$ ${dep.valor.toFixed(2).replace(".", ",")}</td>
+          <td>
+            <span class="status-nubank status-${statusClass}">
+              <span class="status-dot"></span>
+              ${dep.status}
+            </span>
+          </td>
+          <td>${dep.data ? new Date(dep.data).toLocaleString('pt-BR') : '-'}</td>
+          <td>${acoes}</td>
+        </tr>
+      `;
     }
 
     // ========== RENDERIZAR USUÁRIOS ==========
@@ -621,16 +1070,17 @@
       }
 
       let html = `
-        <table class="nubank-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Saldo</th>
-              <th>Total Investido</th>
-              <th>Data Criação</th>
-            </tr>
-          </thead>
-          <tbody>`;
+        <div class="table-wrapper">
+          <table class="nubank-table">
+            <thead>
+              <tr>
+                <th>ID do Usuário</th>
+                <th>Saldo Atual</th>
+                <th>Total Investido</th>
+                <th>Data de Criação</th>
+              </tr>
+            </thead>
+            <tbody>`;
 
       Object.entries(usuarios).forEach(([userId, user]) => {
         html += `
@@ -642,89 +1092,143 @@
           </tr>`;
       });
 
-      html += `</tbody></table>`;
+      html += `</tbody></table></div>`;
       div.innerHTML = html;
     }
 
-    // ========== RENDERIZAR DEPÓSITOS ==========
-    function renderizarDepositos(depositos) {
-      const div = document.getElementById("listaDepositosAdmin");
-      let todosDepositos = [];
+    // ========== MODAL DE CONFIRMAÇÃO ==========
+    let modalCallback = null;
 
-      Object.entries(depositos).forEach(([userId, userDeps]) => {
-        Object.entries(userDeps).forEach(([depId, dep]) => {
-          todosDepositos.push({ ...dep, userId, depId });
-        });
+    function abrirModal(titulo, bodyHTML, btnText, btnClass, callback) {
+      document.getElementById("modalTitle").innerText = titulo;
+      document.getElementById("modalBody").innerHTML = bodyHTML;
+      const btn = document.getElementById("modalBtnConfirm");
+      btn.innerText = btnText;
+      btn.className = btnClass;
+      modalCallback = callback;
+      btn.onclick = () => {
+        callback();
+        fecharModal();
+      };
+      document.getElementById("modalConfirm").classList.add("show");
+    }
+
+    function fecharModal() {
+      document.getElementById("modalConfirm").classList.remove("show");
+      modalCallback = null;
+    }
+
+    // ========== CONFIRMAR SAQUES ==========
+    function confirmarAprovarSaque(userId, saqueId, valor, chavePix, tipoChave, nomeTitular) {
+      const body = `
+        <div class="detail-row">
+          <span class="detail-label">ID do Usuário:</span>
+          <span class="detail-value">${userId}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Valor do Saque:</span>
+          <span class="detail-value" style="color: var(--nubank-green)">R$ ${valor.toFixed(2).replace(".", ",")}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Nome do Titular:</span>
+          <span class="detail-value">${nomeTitular || '-'}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Tipo de Chave:</span>
+          <span class="detail-value">${tipoChave ? tipoChave.toUpperCase() : '-'}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Chave Pix:</span>
+          <span class="detail-value">${chavePix || '-'}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Ação:</span>
+          <span class="detail-value" style="color: var(--nubank-green)">✓ Aprovar e marcar como pago</span>
+        </div>
+      `;
+      abrirModal("✓ Aprovar Saque", body, "Confirmar Aprovação", "modal-btn-confirm", () => {
+        aprovarSaque(userId, saqueId, valor);
       });
+    }
 
-      todosDepositos.sort((a, b) => new Date(b.data) - new Date(a.data));
-
-      if (todosDepositos.length === 0) {
-        div.innerHTML = `
-          <div class="empty-nubank">
-            <div class="icon">💵</div>
-            <p>Nenhum depósito registrado</p>
-          </div>`;
-        return;
-      }
-
-      let html = `
-        <table class="nubank-table">
-          <thead>
-            <tr>
-              <th>ID Usuário</th>
-              <th>Valor</th>
-              <th>Status</th>
-              <th>Data</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>`;
-
-      todosDepositos.slice(0, 50).forEach(dep => {
-        const statusClass = dep.status === 'Aprovado' ? 'aprovado' : dep.status === 'Rejeitado' ? 'rejeitado' : 'pendente';
-        const statusText = dep.status === 'Aprovado' ? 'Aprovado' : dep.status === 'Rejeitado' ? 'Rejeitado' : 'Pendente';
-        const botoes = dep.status === 'Pendente' ? `
-          <button class="btn-nubank btn-nubank-aprovar" onclick="aprovarDeposito('${dep.userId}', '${dep.depId}', ${dep.valor})">✓ Aprovar</button>
-          <button class="btn-nubank btn-nubank-rejeitar" onclick="rejeitarDeposito('${dep.userId}', '${dep.depId}')">✕ Rejeitar</button>
-        ` : '<span style="color: var(--nubank-gray);">-</span>';
-
-        html += `
-          <tr>
-            <td><span class="user-id">${dep.userId}</span></td>
-            <td class="valor-pos">R$ ${dep.valor.toFixed(2).replace(".", ",")}</td>
-            <td>
-              <span class="status-nubank status-${statusClass}">
-                <span class="status-dot"></span>
-                ${statusText}
-              </span>
-            </td>
-            <td>${new Date(dep.data).toLocaleString('pt-BR')}</td>
-            <td>${botoes}</td>
-          </tr>`;
+    function confirmarRejeitarSaque(userId, saqueId, valor) {
+      const body = `
+        <div class="detail-row">
+          <span class="detail-label">ID do Usuário:</span>
+          <span class="detail-value">${userId}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Valor do Saque:</span>
+          <span class="detail-value" style="color: var(--nubank-red)">R$ ${valor.toFixed(2).replace(".", ",")}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Ação:</span>
+          <span class="detail-value" style="color: var(--nubank-red)">✕ Rejeitar e devolver valor ao usuário</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Resultado:</span>
+          <span class="detail-value">O valor de R$ ${valor.toFixed(2).replace(".", ",")} voltará para o saldo do usuário</span>
+        </div>
+      `;
+      abrirModal("✕ Rejeitar Saque", body, "Confirmar Rejeição", "modal-btn-danger", () => {
+        rejeitarSaque(userId, saqueId);
       });
+    }
 
-      html += `</tbody></table>`;
-      div.innerHTML = html;
+    // ========== CONFIRMAR DEPÓSITOS ==========
+    function confirmarAprovarDeposito(userId, depId, valor) {
+      const body = `
+        <div class="detail-row">
+          <span class="detail-label">ID do Usuário:</span>
+          <span class="detail-value">${userId}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Valor do Depósito:</span>
+          <span class="detail-value" style="color: var(--nubank-green)">R$ ${valor.toFixed(2).replace(".", ",")}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Ação:</span>
+          <span class="detail-value" style="color: var(--nubank-green)">✓ Aprovar e creditar no saldo</span>
+        </div>
+      `;
+      abrirModal("✓ Aprovar Depósito", body, "Confirmar Aprovação", "modal-btn-confirm", () => {
+        aprovarDeposito(userId, depId, valor);
+      });
+    }
+
+    function confirmarRejeitarDeposito(userId, depId, valor) {
+      const body = `
+        <div class="detail-row">
+          <span class="detail-label">ID do Usuário:</span>
+          <span class="detail-value">${userId}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Valor do Depósito:</span>
+          <span class="detail-value" style="color: var(--nubank-red)">R$ ${valor.toFixed(2).replace(".", ",")}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Ação:</span>
+          <span class="detail-value" style="color: var(--nubank-red)">✕ Rejeitar depósito</span>
+        </div>
+      `;
+      abrirModal("✕ Rejeitar Depósito", body, "Confirmar Rejeição", "modal-btn-danger", () => {
+        rejeitarDeposito(userId, depId);
+      });
     }
 
     // ========== AÇÕES SAQUES ==========
-    function aprovarSaque(userId, saqueId, valor, chavePix, tipoChave, nomeTitular) {
-      if (!confirm(`Aprovar saque de R$ ${valor.toFixed(2).replace(".", ",")}?`)) return;
-
+    function aprovarSaque(userId, saqueId, valor) {
       db.ref(`saques/${userId}/${saqueId}`).update({
         status: 'Aprovado',
         dataAprovacao: new Date().toISOString()
       }).then(() => {
-        mostrarToast(`✓ Saque de R$ ${valor.toFixed(2).replace(".", ",")} aprovado!`, "sucesso");
+        mostrarToast(`✓ Saque de R$ ${valor.toFixed(2).replace(".", ",")} aprovado com sucesso!`, "sucesso");
       }).catch(err => {
-        mostrarToast("Erro: " + err.message, "erro");
+        mostrarToast("Erro ao aprovar: " + err.message, "erro");
       });
     }
 
     function rejeitarSaque(userId, saqueId) {
-      if (!confirm("Rejeitar saque? O valor será devolvido ao usuário.")) return;
-
       db.ref(`saques/${userId}/${saqueId}`).once('value').then(snapshot => {
         const saque = snapshot.val();
         if (!saque) return;
@@ -738,15 +1242,13 @@
           status: 'Rejeitado',
           dataRejeicao: new Date().toISOString()
         }).then(() => {
-          mostrarToast("Saque rejeitado e valor devolvido!", "sucesso");
+          mostrarToast(`Saque rejeitado! R$ ${saque.valor.toFixed(2).replace(".", ",")} devolvido ao usuário.`, "sucesso");
         });
       });
     }
 
     // ========== AÇÕES DEPÓSITOS ==========
     function aprovarDeposito(userId, depId, valor) {
-      if (!confirm(`Aprovar depósito de R$ ${valor.toFixed(2).replace(".", ",")}?`)) return;
-
       db.ref(`depositosPendentes/${userId}/${depId}`).update({
         status: 'Aprovado',
         dataAprovacao: new Date().toISOString()
@@ -756,27 +1258,25 @@
           db.ref(`usuarios/${userId}/saldo`).set(saldoAtual + valor);
         });
 
-        mostrarToast(`✓ Depósito de R$ ${valor.toFixed(2).replace(".", ",")} aprovado!`, "sucesso");
+        mostrarToast(`✓ Depósito de R$ ${valor.toFixed(2).replace(".", ",")} aprovado e creditado!`, "sucesso");
       }).catch(err => {
-        mostrarToast("Erro: " + err.message, "erro");
+        mostrarToast("Erro ao aprovar: " + err.message, "erro");
       });
     }
 
     function rejeitarDeposito(userId, depId) {
-      if (!confirm("Rejeitar depósito?")) return;
-
       db.ref(`depositosPendentes/${userId}/${depId}`).update({
         status: 'Rejeitado',
         dataRejeicao: new Date().toISOString()
       }).then(() => {
         mostrarToast("Depósito rejeitado!", "sucesso");
       }).catch(err => {
-        mostrarToast("Erro: " + err.message, "erro");
+        mostrarToast("Erro ao rejeitar: " + err.message, "erro");
       });
     }
 
     // ========== STATS ==========
-    function atualizarStats(saques) {
+    function atualizarStatsSaques(saques) {
       let countPendentes = 0;
       let totalSaques = 0;
 
@@ -789,7 +1289,22 @@
 
       document.getElementById("statPendentes").innerText = countPendentes;
       document.getElementById("badgePendentes").innerText = countPendentes;
+      document.getElementById("navBadgeSaques").innerText = countPendentes;
       document.getElementById("statSaques").innerText = "R$ " + totalSaques.toFixed(2).replace(".", ",");
+    }
+
+    function atualizarStatsDepositos(depositos) {
+      let countPendentes = 0;
+
+      Object.values(depositos).forEach(userDeps => {
+        Object.values(userDeps).forEach(dep => {
+          if (dep.status === 'Pendente') countPendentes++;
+        });
+      });
+
+      document.getElementById("statDepPendentes").innerText = countPendentes;
+      document.getElementById("badgeDepPendentes").innerText = countPendentes;
+      document.getElementById("navBadgeDepositos").innerText = countPendentes;
     }
 
     // ========== TOAST ==========
@@ -798,7 +1313,7 @@
       toast.className = "toast-nubank " + tipo;
       toast.innerText = msg;
       document.body.appendChild(toast);
-      setTimeout(() => { toast.remove(); }, 3000);
+      setTimeout(() => { toast.remove(); }, 4000);
     }
   </script>
 </body>
